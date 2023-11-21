@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="text_color0">#262D3D</color>//主要信息
+    <color name="text_color1">#78849E</color>//次要信息
+    <color name="text_color2">#A1ABC2</color>//再次要信息
+    <color name="text_color3">#C5CCDB</color>//再次次要信息
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="red">#FFFF0000</color>
+    <color name="blue">#FF0000FF</color>
+</resources>

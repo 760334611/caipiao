@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="base_button">
+        <item name="android:background">@drawable/base_button_bg</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">40dp</item>
+        <item name="android:paddingHorizontal">18dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/text_color0</item>
+    </style>
+
+
+    <style name="base_item_button">
+        <item name="android:background">@drawable/base_item_button_bg</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">60dp</item>
+        <item name="android:paddingHorizontal">18dp</item>
+        <item name="android:layout_marginHorizontal">8dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:ellipsize">middle</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:textSize">25sp</item>
+        <item name="android:textColor">@color/text_color0</item>
+    </style>
+
+    <style name="base_text">
+        <item name="android:background">@mipmap/red_circle</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:ellipsize">middle</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+</resources>
