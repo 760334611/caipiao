@@ -4,14 +4,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.example.caipiao.R
+import com.example.caipiao.shuangseqiu.bean.HistoryRecord
 import com.example.caipiao.shuangseqiu.bean.SelectNumber
-import java.util.*
+import com.example.caipiao.shuangseqiu.dialog.SelectDialog
+import kotlin.collections.ArrayList
 
 class SelectNumberAdapter : RecyclerView.Adapter<SelectNumberAdapter.SelectNumberHolder>() {
 
     private val numberList = ArrayList<SelectNumber>()
+    var uploadList: ((ArrayList<SelectNumber>) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SelectNumberHolder {
         val view =
@@ -21,13 +25,37 @@ class SelectNumberAdapter : RecyclerView.Adapter<SelectNumberAdapter.SelectNumbe
     }
 
     override fun onBindViewHolder(holder: SelectNumberHolder, position: Int) {
-        holder.numberOne.text = numberList[position].blueOne.toString()
-        holder.numberTwo.text = numberList[position].blueTwo.toString()
-        holder.numberThree.text = numberList[position].blueThree.toString()
-        holder.numberFour.text = numberList[position].blueFour.toString()
-        holder.numberFive.text = numberList[position].blueFive.toString()
-        holder.numberSix.text = numberList[position].blueSix.toString()
-        holder.numberSeven.text = numberList[position].redOne.toString()
+        if (holder.constraintLayout.childCount > numberList[position].blueList.size) {
+            for (index in 0 until numberList[position].blueList.size) {
+                (holder.constraintLayout.getChildAt(index) as TextView).text =
+                    numberList[position].blueList[index].toString()
+            }
+            for (index in (numberList[position].redList.size - 1) downTo 0) {
+                (holder.constraintLayout.getChildAt(holder.constraintLayout.childCount - index - 1) as TextView).text =
+                    numberList[position].redList[index].toString()
+            }
+        }
+
+
+        holder.itemView.setOnLongClickListener {
+            val mSelectDialog = SelectDialog(holder.itemView.context, R.style.base_BaseDialog)
+            mSelectDialog.setSelectDataLimit(33, 16, 6, 1)
+            mSelectDialog.setSelectData(numberList[position].blueList, numberList[position].redList)
+            mSelectDialog.run {
+                itemDelete = {
+                    numberList.remove(numberList[position])
+                    uploadList?.invoke(numberList)
+                    notifyDataSetChanged()
+                }
+                itemUpload = { blueList, redList ->
+                    numberList[position].setListData(blueList, redList)
+                    uploadList?.invoke(numberList)
+                    notifyDataSetChanged()
+                }
+            }
+            mSelectDialog.show()
+            false
+        }
     }
 
     override fun getItemCount(): Int {
@@ -41,13 +69,7 @@ class SelectNumberAdapter : RecyclerView.Adapter<SelectNumberAdapter.SelectNumbe
     }
 
     inner class SelectNumberHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val numberOne: TextView = view.findViewById(R.id.number_one)
-        val numberTwo: TextView = view.findViewById(R.id.number_two)
-        val numberThree: TextView = view.findViewById(R.id.number_three)
-        val numberFour: TextView = view.findViewById(R.id.number_four)
-        val numberFive: TextView = view.findViewById(R.id.number_five)
-        val numberSix: TextView = view.findViewById(R.id.number_six)
-        val numberSeven: TextView = view.findViewById(R.id.number_seven)
+        val constraintLayout: ConstraintLayout = view.findViewById(R.id.constraintLayout)
     }
 
 }

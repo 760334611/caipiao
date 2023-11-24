@@ -1,22 +1,45 @@
 package com.example.caipiao.shuangseqiu.bean
 
+
 import androidx.room.Entity
+import androidx.room.Ignore
 import androidx.room.PrimaryKey
-import androidx.room.TypeConverters
-import com.example.caipiao.shuangseqiu.db.HistoryConverters
+import com.alibaba.fastjson.JSONArray
+import com.alibaba.fastjson.JSONObject
+import java.io.Serializable
 
 @Entity(tableName = "historyTimeDate")
-@TypeConverters(HistoryConverters::class)
-class HistoryRecord {
+class HistoryRecord : Serializable {
     @PrimaryKey(autoGenerate = true)
-    var id: Int = 0
+    var id: Long = 0
     var time: Long = 0
-    var historyList:List<SelectNumber>
+    var selectNumberJson: String = ""
 
-    constructor(id: Int, time: Long, historyList: List<SelectNumber>) {
+
+    @Ignore
+    var selectNumberList = ArrayList<SelectNumber>()
+
+    constructor(id: Long, time: Long, selectNumberJson: String) {
         this.id = id
         this.time = time
-        this.historyList = historyList
+        this.selectNumberJson = selectNumberJson
+        selectNumberList = JSONArray.parseArray(
+            selectNumberJson,
+            SelectNumber::class.java
+        ) as ArrayList<SelectNumber>
     }
 
+    constructor(time: Long, selectNumberList: ArrayList<SelectNumber>) {
+        this.time = time
+        this.selectNumberList.clear()
+        this.selectNumberList.addAll(selectNumberList)
+        this.selectNumberJson = JSONObject.toJSONString(this.selectNumberList)
+    }
+
+    fun setListData(time: Long, selectNumberList: ArrayList<SelectNumber>) {
+        this.time = time
+        this.selectNumberList.clear()
+        this.selectNumberList.addAll(selectNumberList)
+        this.selectNumberJson = JSONObject.toJSONString(this.selectNumberList)
+    }
 }

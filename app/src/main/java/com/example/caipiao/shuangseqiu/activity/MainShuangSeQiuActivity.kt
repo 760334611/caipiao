@@ -1,16 +1,19 @@
 package com.example.caipiao.shuangseqiu.activity
 
 import android.os.Bundle
-import android.os.PersistableBundle
+import android.text.TextUtils
+import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.lifecycleScope
+import com.alibaba.fastjson.JSONArray
 import com.example.caipiao.R
 import com.example.caipiao.common.FileFragmentListener
 import com.example.caipiao.databinding.MainShuangSeQiuActivityBinding
 import com.example.caipiao.shuangseqiu.adapter.HistoryTimeAdapter
+import com.example.caipiao.shuangseqiu.bean.SelectNumber
 import com.example.caipiao.shuangseqiu.viewmodel.MainShuangSeQiuViewModel
 import kotlinx.coroutines.launch
 
@@ -20,7 +23,7 @@ class MainShuangSeQiuActivity : AppCompatActivity() {
         MainShuangSeQiuActivityBinding.inflate(layoutInflater)
     }
 
-    private val mHistoryTimeAdapter: HistoryTimeAdapter by lazy{
+    private val mHistoryTimeAdapter: HistoryTimeAdapter by lazy {
         HistoryTimeAdapter()
     }
 
@@ -55,18 +58,26 @@ class MainShuangSeQiuActivity : AppCompatActivity() {
         const val SELECT_NUMBER_FRAGMENT = "SelectNumberFragment"
     }
 
-    override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
-        super.onCreate(savedInstanceState, persistentState)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         setContentView(mBinding.root)
         initData()
     }
 
+
     private fun initData() {
         mBinding.onClickHandler = this
-        mBinding.recycleTime.adapter=mHistoryTimeAdapter
+        mBinding.recycleTime.adapter = mHistoryTimeAdapter
+        mHistoryTimeAdapter.run {
+            itemClick = {
+                showFragment(SELECT_NUMBER_FRAGMENT)
+                mSelectNumberFragment.setHistoryRecord(it.selectNumberList)
+                mMainShuangSeQiuViewModel.setClickPositionData(it)
+            }
+        }
         lifecycleScope.launchWhenCreated {
             launch {
-                mMainShuangSeQiuViewModel.mHistoryTimeList.collect{
+                mMainShuangSeQiuViewModel.mHistoryTimeList.collect {
                     mHistoryTimeAdapter.setData(it)
                 }
             }
@@ -79,7 +90,7 @@ class MainShuangSeQiuActivity : AppCompatActivity() {
     }
 
     fun selectNumber() {
-        showFragment(SELECT_NUMBER_FRAGMENT)
+        mMainShuangSeQiuViewModel.insertHistoryData()
     }
 
 
@@ -102,13 +113,20 @@ class MainShuangSeQiuActivity : AppCompatActivity() {
         transaction.show(fragment)
         transaction.commitAllowingStateLoss()
         supportFragmentManager.executePendingTransactions()
-        mBinding.fmOther.visibility= View.VISIBLE
+        mBinding.fmOther.visibility = View.VISIBLE
+        mBinding.group.visibility = View.GONE
     }
 
-    fun hideFragment(){
-        val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
-        supportFragmentManager.fragments.forEach { transaction.hide(it) }
-        transaction.commitAllowingStateLoss()
-        supportFragmentManager.executePendingTransactions()
+    private fun hideFragment() {
+        mBinding.fmOther.visibility = View.GONE
+        mBinding.group.visibility = View.VISIBLE
+    }
+
+    override fun onBackPressed() {
+        if (mBinding.group.visibility == View.VISIBLE) {
+            finish()
+        } else {
+            hideFragment()
+        }
     }
 }

@@ -1,6 +1,7 @@
 package com.example.caipiao.shuangseqiu.activity
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import com.example.caipiao.common.FileFragmentListener
 import com.example.caipiao.databinding.FragmentSelectNumberBinding
 import com.example.caipiao.shuangseqiu.adapter.SelectNumberAdapter
+import com.example.caipiao.shuangseqiu.bean.SelectNumber
 import com.example.caipiao.shuangseqiu.viewmodel.MainShuangSeQiuViewModel
 import com.example.caipiao.shuangseqiu.viewmodel.SelectNumberViewModel
 import kotlinx.coroutines.launch
@@ -59,7 +61,14 @@ class SelectNumberFragment : Fragment() {
             launch {
                 mSelectNumberViewModel.mSelectNumberList.collect{
                     mSelectNumberAdapter.setData(it)
+                    mMainShuangSeQiuViewModel.uploadClickPosition(it)
                 }
+            }
+        }
+        mSelectNumberAdapter.run {
+            uploadList={
+                mSelectNumberViewModel.uploadNumberList(it)
+                mMainShuangSeQiuViewModel.uploadClickPosition(it)
             }
         }
     }
@@ -69,6 +78,11 @@ class SelectNumberFragment : Fragment() {
     }
 
     fun handSelectNumber(){
+        mSelectNumberViewModel.autoSelectNumber(1)
+    }
 
+    fun setHistoryRecord(list:ArrayList<SelectNumber>){
+        Log.i("zhanghao","setHistoryRecord size=${list.size}")
+        mSelectNumberViewModel.uploadNumberList(list)
     }
 }

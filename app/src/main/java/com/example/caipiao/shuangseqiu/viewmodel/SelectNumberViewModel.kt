@@ -12,49 +12,48 @@ class SelectNumberViewModel : ViewModel() {
     var mSelectNumberList: MutableSharedFlow<ArrayList<SelectNumber>> =
         MutableSharedFlow()
 
-    private val numberList = ArrayList<SelectNumber>()
+    private var numberList = ArrayList<SelectNumber>()
 
 
-    fun autoSelectNumber(number:Int){
+    fun autoSelectNumber(number: Int) {
         viewModelScope.launch {
-            for(i in 0 until number){
+            for (i in 0 until number) {
                 numberList.add(randomBall())
             }
             mSelectNumberList.emit(numberList)
         }
     }
 
+    fun uploadNumberList(list: ArrayList<SelectNumber>) {
+        viewModelScope.launch {
+            numberList.clear()
+            numberList.addAll(list)
+            mSelectNumberList.emit(numberList)
+        }
+    }
 
 
     /**
      * 机选号码
-     *
-     * @param list
-     * @param num     机选几个
-     * @param ballNum 在多少个数里选
      */
-    fun randomBall(): SelectNumber {
-        val selectNumber = SelectNumber()
+    private fun randomBall(): SelectNumber {
+
         val randomBlue = Random()
-        val boolBlue = BooleanArray(33)
-        var randInt = 0
+        val boolBlue = BooleanArray(34)
+        val blueNumber = ArrayList<Int>()
+        val redNumber = ArrayList<Int>()
+        var randInt: Int
         for (i in 0 until 6) {
             do {
-                randInt = randomBlue.nextInt(33)
+                randInt = randomBlue.nextInt(33) + 1
             } while (boolBlue[randInt])
             boolBlue[randInt] = true
-            when(i){
-                0->selectNumber.blueOne=randInt
-                1->selectNumber.blueTwo=randInt
-                2->selectNumber.blueThree=randInt
-                3->selectNumber.blueFour=randInt
-                4->selectNumber.blueFive=randInt
-                5->selectNumber.blueSix=randInt
-            }
+            blueNumber.add(randInt)
         }
-        randInt = randomBlue.nextInt(16)
-        selectNumber.redOne=randInt
-        return selectNumber
+        blueNumber.sort()
+        randInt = randomBlue.nextInt(16) + 1
+        redNumber.add(randInt)
+        return SelectNumber(blueNumber, redNumber)
     }
 
 

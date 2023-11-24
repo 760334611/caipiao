@@ -16,13 +16,14 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        >
 
         <Button
             android:id="@+id/auto_select_number"
             style="@style/base_button"
             android:onClick="@{(View)->onClickHandler.autoSelectNumber()}"
-            android:text="自动选择号码"
+            android:text="自动选择号码+5"
             app:layout_constraintEnd_toStartOf="@+id/hand_select_number"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -33,7 +34,7 @@
             android:id="@+id/hand_select_number"
             style="@style/base_button"
             android:onClick="@{(View)->onClickHandler.handSelectNumber()}"
-            android:text="手动选择号码"
+            android:text="自动选择号码+1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/auto_select_number"
             app:layout_constraintTop_toTopOf="@+id/auto_select_number" />
@@ -47,9 +48,8 @@
             android:orientation="vertical"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/item_select_shuang_number"
-            tools:itemCount="10"
+            tools:itemCount="100"
             />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

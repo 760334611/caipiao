@@ -17,6 +17,8 @@ class HistoryTimeAdapter : RecyclerView.Adapter<HistoryTimeAdapter.HistoryTimeHo
     private var pattern = "yyyy-MM-dd HH:mm:ss"
     private var weekDays = arrayOf("星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六")
 
+    var itemClick: ((HistoryRecord) -> Unit)? = null
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HistoryTimeHolder {
         val view =
             LayoutInflater.from(parent.context).inflate(R.layout.item_history_time, parent, false)
@@ -25,6 +27,9 @@ class HistoryTimeAdapter : RecyclerView.Adapter<HistoryTimeAdapter.HistoryTimeHo
 
     override fun onBindViewHolder(holder: HistoryTimeHolder, position: Int) {
         holder.buttonTime.text = getDateToString(timeList[position].time)
+        holder.itemView.setOnClickListener {
+            itemClick?.invoke(timeList[position])
+        }
     }
 
     override fun getItemCount(): Int {

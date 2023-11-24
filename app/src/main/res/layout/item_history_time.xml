@@ -5,6 +5,4 @@
     android:id="@+id/btn_history_time"
     style="@style/base_item_button"
     android:layout_marginBottom="20dp"
-    android:text="周五 2023-11-21 18.30.53"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent" />
+    android:text="周五 2023-11-21 18.30.53" />

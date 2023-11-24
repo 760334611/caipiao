@@ -33,10 +33,11 @@
             android:id="@+id/select_number"
             style="@style/base_button"
             android:onClick="@{(View)->onClickHandler.selectNumber()}"
-            android:text="选择自己的号码"
+            android:text="创建自己的号码"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/check_history"
             app:layout_constraintTop_toTopOf="@+id/check_history" />
+
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycle_time"
@@ -51,10 +52,19 @@
             tools:itemCount="10"
             />
 
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:constraint_referenced_ids="check_history,select_number,recycle_time"
+            />
+
         <FrameLayout
             android:id="@+id/fm_other"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             android:visibility="gone"
             />
 
