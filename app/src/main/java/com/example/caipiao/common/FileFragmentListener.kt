@@ -1,5 +1,7 @@
 package com.example.caipiao.common
 
+import com.example.caipiao.shuangseqiu.bean.SelectNumber
+
 abstract class FileFragmentListener {
     /**
      * 关闭Activity
@@ -19,5 +21,11 @@ abstract class FileFragmentListener {
     /**
      * 切换Fragment前进
      */
-    abstract fun onSwitchFragmentForward(tagFrom:String,tagTo:String)
+    abstract fun onSwitchFragmentLottery(list: List<SelectNumber>, prizeDesignatedTime: Long)
+
+
+    /**
+     * 切换Fragment后退
+     */
+    abstract fun onSwitchFragmentRetreat()
 }

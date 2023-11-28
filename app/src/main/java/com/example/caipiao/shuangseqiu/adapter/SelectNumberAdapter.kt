@@ -1,13 +1,14 @@
 package com.example.caipiao.shuangseqiu.adapter
 
+import android.annotation.SuppressLint
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.example.caipiao.R
-import com.example.caipiao.shuangseqiu.bean.HistoryRecord
 import com.example.caipiao.shuangseqiu.bean.SelectNumber
 import com.example.caipiao.shuangseqiu.dialog.SelectDialog
 import kotlin.collections.ArrayList
@@ -24,18 +25,17 @@ class SelectNumberAdapter : RecyclerView.Adapter<SelectNumberAdapter.SelectNumbe
         return SelectNumberHolder(view)
     }
 
+    @SuppressLint("InflateParams", "SetTextI18n")
     override fun onBindViewHolder(holder: SelectNumberHolder, position: Int) {
-        if (holder.constraintLayout.childCount > numberList[position].blueList.size) {
-            for (index in 0 until numberList[position].blueList.size) {
-                (holder.constraintLayout.getChildAt(index) as TextView).text =
-                    numberList[position].blueList[index].toString()
-            }
-            for (index in (numberList[position].redList.size - 1) downTo 0) {
-                (holder.constraintLayout.getChildAt(holder.constraintLayout.childCount - index - 1) as TextView).text =
-                    numberList[position].redList[index].toString()
-            }
+        holder.constraintLayout.removeAllViews()
+        numberList[position].blueList.forEach {
+            getNumberView(holder.itemView.context, holder, R.mipmap.blue_circle, it)
+
         }
 
+        numberList[position].redList.forEach {
+            getNumberView(holder.itemView.context, holder, R.mipmap.red_circle, it)
+        }
 
         holder.itemView.setOnLongClickListener {
             val mSelectDialog = SelectDialog(holder.itemView.context, R.style.base_BaseDialog)
@@ -58,6 +58,28 @@ class SelectNumberAdapter : RecyclerView.Adapter<SelectNumberAdapter.SelectNumbe
         }
     }
 
+    @SuppressLint("SetTextI18n", "InflateParams")
+    private fun getNumberView(
+        context: Context,
+        holder: SelectNumberHolder,
+        resId: Int,
+        it: Int
+    ) {
+        val viewNumber: View =
+            LayoutInflater.from(context)
+                .inflate(R.layout.item_number, null)
+        val selectNumber = viewNumber.findViewById<TextView>(R.id.tv_select_number)
+        selectNumber.setBackgroundResource(resId)
+        if (it < 10) {
+            selectNumber.text = "0$it"
+        } else {
+            selectNumber.text = it.toString()
+        }
+        val layoutParams = LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT)
+        layoutParams.weight = 1F
+        holder.constraintLayout.addView(viewNumber, layoutParams)
+    }
+
     override fun getItemCount(): Int {
         return numberList.size
     }
@@ -69,7 +91,7 @@ class SelectNumberAdapter : RecyclerView.Adapter<SelectNumberAdapter.SelectNumbe
     }
 
     inner class SelectNumberHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val constraintLayout: ConstraintLayout = view.findViewById(R.id.constraintLayout)
+        val constraintLayout: LinearLayout = view.findViewById(R.id.constraintLayout)
     }
 
 }

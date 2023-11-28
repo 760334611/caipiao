@@ -51,6 +51,10 @@ dependencies {
     kapt 'androidx.room:room-compiler:2.3.0'
     implementation 'com.alibaba:fastjson:1.1.54.android'
     implementation 'org.jetbrains.kotlin:kotlin-reflect:1.5.20'
+    //okgo
+    implementation 'com.lzy.net:okgo:+'        //版本号使用 + 可以自动引用最新版
+    implementation 'com.lzy.net:okrx:+'        //版本号使用 + 可以自动引用最新版
+    implementation 'com.lzy.net:okserver:+'    //版本号使用 + 可以自动引用最新版
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'

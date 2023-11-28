@@ -14,9 +14,8 @@ import java.util.*
 class HistoryTimeAdapter : RecyclerView.Adapter<HistoryTimeAdapter.HistoryTimeHolder>() {
 
     private val timeList = ArrayList<HistoryRecord>()
-    private var pattern = "yyyy-MM-dd HH:mm:ss"
     private var weekDays = arrayOf("星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六")
-
+    private val format = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
     var itemClick: ((HistoryRecord) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HistoryTimeHolder {
@@ -39,7 +38,6 @@ class HistoryTimeAdapter : RecyclerView.Adapter<HistoryTimeAdapter.HistoryTimeHo
     @SuppressLint("SimpleDateFormat")
     fun getDateToString(milSecond: Long): String {
         val date = Date(milSecond)
-        val format = SimpleDateFormat(pattern)
 
         val cal = Calendar.getInstance()
         cal.time = date
@@ -52,6 +50,7 @@ class HistoryTimeAdapter : RecyclerView.Adapter<HistoryTimeAdapter.HistoryTimeHo
     fun setData(list: List<HistoryRecord>) {
         timeList.clear()
         timeList.addAll(list)
+        timeList.sortByDescending { historyRecord -> historyRecord.time }
         notifyDataSetChanged()
     }
 

@@ -32,6 +32,8 @@ class SelectNumberViewModel : ViewModel() {
         }
     }
 
+    fun getSelectNumberList()=numberList
+
 
     /**
      * 机选号码

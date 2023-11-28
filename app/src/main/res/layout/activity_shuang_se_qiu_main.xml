@@ -22,7 +22,7 @@
             android:id="@+id/check_history"
             style="@style/base_button"
             android:onClick="@{(View)->onClickHandler.checkHistory()}"
-            android:text="查看历史开奖号码"
+            android:text="历史号码"
             app:layout_constraintEnd_toStartOf="@+id/select_number"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -33,14 +33,23 @@
             android:id="@+id/select_number"
             style="@style/base_button"
             android:onClick="@{(View)->onClickHandler.selectNumber()}"
-            android:text="创建自己的号码"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:text="创建号码"
+            app:layout_constraintEnd_toStartOf="@+id/refresh_number"
             app:layout_constraintStart_toEndOf="@+id/check_history"
+            app:layout_constraintTop_toTopOf="@+id/check_history" />
+
+        <Button
+            android:id="@+id/refresh_number"
+            style="@style/base_button"
+            android:onClick="@{(View)->onClickHandler.refreshNumber()}"
+            android:text="刷新号码"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/select_number"
             app:layout_constraintTop_toTopOf="@+id/check_history" />
 
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycle_time"
+            android:id="@+id/recycle_history_number"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginTop="18dp"
@@ -48,7 +57,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             android:orientation="vertical"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/item_history_time"
+            tools:listitem="@layout/item_history_prize"
             tools:itemCount="10"
             />
 
@@ -56,7 +65,7 @@
             android:id="@+id/group"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:constraint_referenced_ids="check_history,select_number,recycle_time"
+            app:constraint_referenced_ids="check_history,select_number,recycle_history_number,refresh_number"
             />
 
         <FrameLayout

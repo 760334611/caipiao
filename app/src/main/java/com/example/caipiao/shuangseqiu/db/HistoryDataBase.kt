@@ -4,9 +4,10 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.example.caipiao.shuangseqiu.bean.HistoryPrizeNumber
 import com.example.caipiao.shuangseqiu.bean.HistoryRecord
 
-@Database(version = 1, exportSchema = false, entities = [HistoryRecord::class])
+@Database(version = 1, exportSchema = false, entities = [HistoryRecord::class,HistoryPrizeNumber::class])
 abstract class HistoryDataBase : RoomDatabase() {
 
     val mHistoryDao: HistoryDao by lazy { getHistoryDao() }

@@ -61,14 +61,12 @@ class SelectNumberFragment : Fragment() {
             launch {
                 mSelectNumberViewModel.mSelectNumberList.collect{
                     mSelectNumberAdapter.setData(it)
-                    mMainShuangSeQiuViewModel.uploadClickPosition(it)
                 }
             }
         }
         mSelectNumberAdapter.run {
             uploadList={
                 mSelectNumberViewModel.uploadNumberList(it)
-                mMainShuangSeQiuViewModel.uploadClickPosition(it)
             }
         }
     }
@@ -81,8 +79,13 @@ class SelectNumberFragment : Fragment() {
         mSelectNumberViewModel.autoSelectNumber(1)
     }
 
-    fun setHistoryRecord(list:ArrayList<SelectNumber>){
-        Log.i("zhanghao","setHistoryRecord size=${list.size}")
-        mSelectNumberViewModel.uploadNumberList(list)
+    fun sureSelectNumber(){
+        mMainShuangSeQiuViewModel.insertHistoryData(mSelectNumberViewModel.getSelectNumberList())
+        mFileFragmentListener?.onSwitchFragmentForward(MainShuangSeQiuActivity.HISTORY_NUMBER_FRAGMENT)
+        cleanRecord()
+    }
+
+    fun cleanRecord(){
+        mSelectNumberViewModel.uploadNumberList(ArrayList())
     }
 }

@@ -1,16 +1,13 @@
 package com.example.caipiao.shuangseqiu.db
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.Query
-import androidx.room.Update
+import androidx.room.*
+import com.example.caipiao.shuangseqiu.bean.HistoryPrizeNumber
 import com.example.caipiao.shuangseqiu.bean.HistoryRecord
-import com.example.caipiao.shuangseqiu.bean.SelectNumber
 
 @Dao
 interface HistoryDao {
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertHistoryTimeData(historyRecord: HistoryRecord): Long
 
     @Query("SELECT * FROM historyTimeDate")
@@ -18,4 +15,10 @@ interface HistoryDao {
 
     @Update(entity = HistoryRecord::class)
     fun updateHistoryTimeData(vararg historyRecord: HistoryRecord)
+
+    @Query("SELECT * FROM historyPrizeDate")
+    fun queryAllHistoryPrize(): List<HistoryPrizeNumber>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertHistoryPrizeData(historyPrizeNumberList: ArrayList<HistoryPrizeNumber>)
 }

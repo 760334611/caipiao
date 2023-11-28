@@ -13,15 +13,17 @@ class HistoryRecord : Serializable {
     @PrimaryKey(autoGenerate = true)
     var id: Long = 0
     var time: Long = 0
+    var prizeDesignatedTime: Long = 0
     var selectNumberJson: String = ""
 
 
     @Ignore
     var selectNumberList = ArrayList<SelectNumber>()
 
-    constructor(id: Long, time: Long, selectNumberJson: String) {
+    constructor(id: Long, time: Long, prizeDesignatedTime: Long, selectNumberJson: String) {
         this.id = id
         this.time = time
+        this.prizeDesignatedTime = prizeDesignatedTime
         this.selectNumberJson = selectNumberJson
         selectNumberList = JSONArray.parseArray(
             selectNumberJson,
@@ -29,15 +31,9 @@ class HistoryRecord : Serializable {
         ) as ArrayList<SelectNumber>
     }
 
-    constructor(time: Long, selectNumberList: ArrayList<SelectNumber>) {
+    constructor(time: Long, prizeDesignatedTime: Long, selectNumberList: ArrayList<SelectNumber>) {
         this.time = time
-        this.selectNumberList.clear()
-        this.selectNumberList.addAll(selectNumberList)
-        this.selectNumberJson = JSONObject.toJSONString(this.selectNumberList)
-    }
-
-    fun setListData(time: Long, selectNumberList: ArrayList<SelectNumber>) {
-        this.time = time
+        this.prizeDesignatedTime = prizeDesignatedTime
         this.selectNumberList.clear()
         this.selectNumberList.addAll(selectNumberList)
         this.selectNumberJson = JSONObject.toJSONString(this.selectNumberList)
