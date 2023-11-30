@@ -1,14 +1,14 @@
-package com.example.caipiao.shuangseqiu.viewmodel
+package com.example.caipiao.daletou.viewmodel
 
 import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.example.caipiao.MyApplication
 import com.example.caipiao.common.DefCommonUtils
-import com.example.caipiao.shuangseqiu.bean.HistoryPrizeNumber
-import com.example.caipiao.shuangseqiu.bean.HistoryRecord
 import com.example.caipiao.common.bean.SelectNumber
 import com.example.caipiao.common.viewmodel.BaseCommonViewModel
-import com.example.caipiao.shuangseqiu.db.HistoryDataBase
+import com.example.caipiao.daletou.bean.DaHistoryPrizeNumber
+import com.example.caipiao.daletou.bean.DaHistoryRecord
+import com.example.caipiao.daletou.db.DaHistoryDataBase
 import com.lzy.okgo.OkGo
 import com.lzy.okgo.callback.FileCallback
 import com.lzy.okgo.model.Progress
@@ -24,16 +24,15 @@ import java.io.InputStreamReader
 import java.util.*
 import kotlin.collections.ArrayList
 
-class MainShuangSeQiuViewModel : BaseCommonViewModel() {
-
+class MainDaLeTouViewModel : BaseCommonViewModel() {
 
     override fun getHistoryPrizeData() {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 downloadFile(
-                    DefCommonUtils.SHUANG_SE_QIU_URL,
-                    DefCommonUtils.SHUANG_SE_QIU_FILE,
-                    DefCommonUtils.SHUANG_SE_QIU_NAME
+                    DefCommonUtils.DA_LE_TOU_URL,
+                    DefCommonUtils.DA_LE_TOU_FILE,
+                    DefCommonUtils.DA_LE_TOU_NAME
                 )
             }
         }
@@ -43,7 +42,7 @@ class MainShuangSeQiuViewModel : BaseCommonViewModel() {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 val timeList = withContext(Dispatchers.IO) {
-                    HistoryDataBase.getInstance(MyApplication.mContext).mHistoryDao.queryAllHistoryPrize()
+                    DaHistoryDataBase.getInstance(MyApplication.mContext).mHistoryDao.queryAllHistoryPrize()
                 }
                 mHistoryPrizeNumberList.clear()
                 mHistoryPrizeNumberList.addAll(timeList)
@@ -56,7 +55,7 @@ class MainShuangSeQiuViewModel : BaseCommonViewModel() {
     override fun getHistoryData() {
         viewModelScope.launch {
             val timeList = withContext(Dispatchers.IO) {
-                HistoryDataBase.getInstance(MyApplication.mContext).mHistoryDao.queryAllHistoryTime()
+                DaHistoryDataBase.getInstance(MyApplication.mContext).mHistoryDao.queryAllHistoryTime()
             }
             mHistorySelectList.clear()
             mHistorySelectList.addAll(timeList)
@@ -68,10 +67,10 @@ class MainShuangSeQiuViewModel : BaseCommonViewModel() {
         viewModelScope.launch {
             val historyRecord = when (mHistoryPrizeNumberList.size) {
                 0 -> {
-                    HistoryRecord(System.currentTimeMillis(), 0, selectNumberList)
+                    DaHistoryRecord(System.currentTimeMillis(), 0, selectNumberList)
                 }
                 else -> {
-                    HistoryRecord(
+                    DaHistoryRecord(
                         System.currentTimeMillis(),
                         mHistoryPrizeNumberList[0].prizeDesignatedTime+1,
                         selectNumberList
@@ -80,7 +79,7 @@ class MainShuangSeQiuViewModel : BaseCommonViewModel() {
             }
 
             val id = withContext(Dispatchers.IO) {
-                HistoryDataBase.getInstance(MyApplication.mContext).mHistoryDao.insertHistoryTimeData(
+                DaHistoryDataBase.getInstance(MyApplication.mContext).mHistoryDao.insertHistoryTimeData(
                     historyRecord
                 )
             }
@@ -137,7 +136,7 @@ class MainShuangSeQiuViewModel : BaseCommonViewModel() {
     }
 
     fun readTxt(path: String) {
-        val prizeNumberList = ArrayList<HistoryPrizeNumber>()
+        val prizeNumberList = ArrayList<DaHistoryPrizeNumber>()
         try {
             val urlFile = File(path)
             val isr = InputStreamReader(FileInputStream(urlFile), "UTF-8")
@@ -153,14 +152,15 @@ class MainShuangSeQiuViewModel : BaseCommonViewModel() {
                     val date: Date = dateFormat.parse(list[1]) as Date
                     val prizeDateTime = date.time
                     val blueList = ArrayList<Int>()
-                    for (index in 0 until 6) {
+                    for (index in 0 until 5) {
                         blueList.add(list[index + 2].toInt())
                     }
                     val redList = ArrayList<Int>()
+                    redList.add(list[7].toInt())
                     redList.add(list[8].toInt())
                     val mSelectNumber = SelectNumber(blueList, redList)
                     val historyPrizeNumber =
-                        HistoryPrizeNumber(prizeDateTime, prizeDesignatedTime, mSelectNumber)
+                        DaHistoryPrizeNumber(prizeDateTime, prizeDesignatedTime, mSelectNumber)
                     prizeNumberList.add(historyPrizeNumber)
                 }
 
@@ -169,7 +169,7 @@ class MainShuangSeQiuViewModel : BaseCommonViewModel() {
             e.printStackTrace()
         }
 
-        HistoryDataBase.getInstance(MyApplication.mContext).mHistoryDao.insertHistoryPrizeData(
+        DaHistoryDataBase.getInstance(MyApplication.mContext).mHistoryDao.insertHistoryPrizeData(
             prizeNumberList
         )
         viewModelScope.launch {

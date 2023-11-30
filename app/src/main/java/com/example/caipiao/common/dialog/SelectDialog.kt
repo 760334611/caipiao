@@ -1,4 +1,4 @@
-package com.example.caipiao.shuangseqiu.dialog
+package com.example.caipiao.common.dialog
 
 import android.app.Dialog
 import android.content.Context
@@ -8,7 +8,8 @@ import android.widget.Button
 import androidx.constraintlayout.widget.Group
 import androidx.recyclerview.widget.RecyclerView
 import com.example.caipiao.R
-import com.example.caipiao.shuangseqiu.adapter.DialogSelectNumberAdapter
+import com.example.caipiao.common.DefCommonUtils
+import com.example.caipiao.common.adapter.DialogSelectNumberAdapter
 
 class SelectDialog(context: Context, themeResId: Int) : Dialog(context, themeResId) {
     var itemDelete: (() -> Unit)? = null
@@ -56,8 +57,16 @@ class SelectDialog(context: Context, themeResId: Int) : Dialog(context, themeRes
         redAdapter.setSelectData(redList)
     }
 
-    fun setSelectDataLimit(blueNumber: Int, redNumber: Int, blueLimit: Int, redLimit: Int) {
-        blueAdapter.setData(blueNumber,blueLimit,1)
-        redAdapter.setData(redNumber,redLimit,2)
+    fun setSelectDataLimit(lotteryType:String) {
+        when(lotteryType){
+            DefCommonUtils.LOTTERY_TYPE_SHUANG->{
+                blueAdapter.setData(33,6,1)
+                redAdapter.setData(16,1,2)
+            }
+            DefCommonUtils.LOTTERY_TYPE_DA->{
+                blueAdapter.setData(35,5,1)
+                redAdapter.setData(12,2,2)
+            }
+        }
     }
 }

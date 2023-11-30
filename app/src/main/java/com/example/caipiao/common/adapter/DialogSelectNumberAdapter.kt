@@ -1,4 +1,4 @@
-package com.example.caipiao.shuangseqiu.adapter
+package com.example.caipiao.common.adapter
 
 import android.view.LayoutInflater
 import android.view.View

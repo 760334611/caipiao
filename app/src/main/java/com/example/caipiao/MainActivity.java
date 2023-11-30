@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import com.example.caipiao.daletou.activity.MainDaLeTouActivity;
 import com.example.caipiao.shuangseqiu.activity.MainShuangSeQiuActivity;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -26,6 +27,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(shuangIntent);
                 break;
             case R.id.da_le_tou:
+                Intent daIntent=new Intent(this, MainDaLeTouActivity.class);
+                startActivity(daIntent);
                 break;
         }
     }

@@ -3,13 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data class="MainShuangSeQiuActivityBinding">
+    <data class="BaseLotteryActivityBinding">
 
         <import type="android.view.View" />
 
         <variable
             name="onClickHandler"
-            type="com.example.caipiao.shuangseqiu.activity.MainShuangSeQiuActivity" />
+            type="com.example.caipiao.common.activity.BaseLotteryActivity" />
 
     </data>
 

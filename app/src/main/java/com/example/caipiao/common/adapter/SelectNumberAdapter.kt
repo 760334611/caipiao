@@ -1,4 +1,4 @@
-package com.example.caipiao.shuangseqiu.adapter
+package com.example.caipiao.common.adapter
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -9,13 +9,15 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.caipiao.R
-import com.example.caipiao.shuangseqiu.bean.SelectNumber
-import com.example.caipiao.shuangseqiu.dialog.SelectDialog
+import com.example.caipiao.common.DefCommonUtils
+import com.example.caipiao.common.bean.SelectNumber
+import com.example.caipiao.common.dialog.SelectDialog
 import kotlin.collections.ArrayList
 
 class SelectNumberAdapter : RecyclerView.Adapter<SelectNumberAdapter.SelectNumberHolder>() {
 
     private val numberList = ArrayList<SelectNumber>()
+    private var lotteryType = DefCommonUtils.LOTTERY_TYPE_SHUANG
     var uploadList: ((ArrayList<SelectNumber>) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SelectNumberHolder {
@@ -39,7 +41,7 @@ class SelectNumberAdapter : RecyclerView.Adapter<SelectNumberAdapter.SelectNumbe
 
         holder.itemView.setOnLongClickListener {
             val mSelectDialog = SelectDialog(holder.itemView.context, R.style.base_BaseDialog)
-            mSelectDialog.setSelectDataLimit(33, 16, 6, 1)
+            mSelectDialog.setSelectDataLimit(lotteryType)
             mSelectDialog.setSelectData(numberList[position].blueList, numberList[position].redList)
             mSelectDialog.run {
                 itemDelete = {
@@ -84,7 +86,8 @@ class SelectNumberAdapter : RecyclerView.Adapter<SelectNumberAdapter.SelectNumbe
         return numberList.size
     }
 
-    fun setData(list: List<SelectNumber>) {
+    fun setData(list: List<SelectNumber>, type: String) {
+        lotteryType=type
         numberList.clear()
         numberList.addAll(list)
         notifyDataSetChanged()

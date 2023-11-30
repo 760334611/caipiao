@@ -1,4 +1,4 @@
-package com.example.caipiao.shuangseqiu.adapter
+package com.example.caipiao.common.adapter
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -9,15 +9,16 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.caipiao.R
-import com.example.caipiao.shuangseqiu.bean.SelectNumber
-import com.example.caipiao.shuangseqiu.dialog.SelectDialog
+import com.example.caipiao.common.DefCommonUtils
+import com.example.caipiao.common.bean.SelectNumber
 import kotlin.collections.ArrayList
 
 class LotteryResultsAdapter : RecyclerView.Adapter<LotteryResultsAdapter.SelectNumberHolder>() {
 
     private val numberList = ArrayList<SelectNumber>()
     private val mSelectNumber: SelectNumber = SelectNumber()
-    var uploadList: ((ArrayList<SelectNumber>) -> Unit)? = null
+    private var lotteryType = DefCommonUtils.LOTTERY_TYPE_SHUANG
+    private var isOpenLottery: Boolean = false
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SelectNumberHolder {
         val view =
@@ -47,41 +48,8 @@ class LotteryResultsAdapter : RecyclerView.Adapter<LotteryResultsAdapter.SelectN
         } else {
             holder.tvLotteryResults.visibility = View.VISIBLE
         }
-        if (blueLotteryNumber == 6 && redLotteryNumber == 1) {
-            holder.tvLotteryResults.text = "一等奖500万元"
-        } else if (blueLotteryNumber == 6) {
-            holder.tvLotteryResults.text = "二等奖80万元"
-        } else if (blueLotteryNumber == 5 && redLotteryNumber == 1) {
-            holder.tvLotteryResults.text = "三等奖3000元"
-        } else if ((blueLotteryNumber == 5) || (blueLotteryNumber == 4 && redLotteryNumber == 1)) {
-            holder.tvLotteryResults.text = "四等奖200元"
-        } else if ((blueLotteryNumber == 4) || (blueLotteryNumber == 3 && redLotteryNumber == 1)) {
-            holder.tvLotteryResults.text = "五等奖10元"
-        } else if (redLotteryNumber == 1) {
-            holder.tvLotteryResults.text = "六等奖5元"
-        } else {
-            holder.tvLotteryResults.text = "未中奖"
-        }
-
-        holder.itemView.setOnLongClickListener {
-            val mSelectDialog = SelectDialog(holder.itemView.context, R.style.base_BaseDialog)
-            mSelectDialog.setSelectDataLimit(33, 16, 6, 1)
-            mSelectDialog.setSelectData(numberList[position].blueList, numberList[position].redList)
-            mSelectDialog.run {
-                itemDelete = {
-                    numberList.remove(numberList[position])
-                    uploadList?.invoke(numberList)
-                    notifyDataSetChanged()
-                }
-                itemUpload = { blueList, redList ->
-                    numberList[position].setListData(blueList, redList)
-                    uploadList?.invoke(numberList)
-                    notifyDataSetChanged()
-                }
-            }
-            mSelectDialog.show()
-            false
-        }
+        holder.tvLotteryResults.text =
+            DefCommonUtils.winningRules(lotteryType, blueLotteryNumber, redLotteryNumber)
     }
 
     @SuppressLint("SetTextI18n", "InflateParams")
@@ -95,28 +63,26 @@ class LotteryResultsAdapter : RecyclerView.Adapter<LotteryResultsAdapter.SelectN
         type: Int,
         it: Int
     ): Boolean {
-        var isLottery = false
+        val isLottery: Boolean
         val viewNumber: View =
             LayoutInflater.from(context)
                 .inflate(R.layout.item_number, null)
         val selectNumber = viewNumber.findViewById<TextView>(R.id.tv_select_number)
         if (type == 1) {
             selectNumber.setBackgroundResource(R.mipmap.blue_circle)
-            if (mSelectNumber.blueList.contains(it)) {
+            isLottery = mSelectNumber.blueList.contains(it)
+            if (mSelectNumber.blueList.contains(it) || !isOpenLottery) {
                 selectNumber.alpha = 1f
-                isLottery = true
             } else {
                 selectNumber.alpha = 0.4f
-                isLottery = false
             }
         } else {
             selectNumber.setBackgroundResource(R.mipmap.red_circle)
-            if (mSelectNumber.redList.contains(it)) {
+            isLottery = mSelectNumber.redList.contains(it)
+            if (mSelectNumber.redList.contains(it) || !isOpenLottery) {
                 selectNumber.alpha = 1f
-                isLottery = true
             } else {
                 selectNumber.alpha = 0.4f
-                isLottery = false
             }
         }
 
@@ -136,7 +102,14 @@ class LotteryResultsAdapter : RecyclerView.Adapter<LotteryResultsAdapter.SelectN
         return numberList.size
     }
 
-    fun setData(list: List<SelectNumber>, mSelectNumber: SelectNumber?) {
+    fun setData(
+        list: List<SelectNumber>,
+        mSelectNumber: SelectNumber?,
+        type: String,
+        isOpenLottery: Boolean
+    ) {
+        lotteryType = type
+        this.isOpenLottery = isOpenLottery
         numberList.clear()
         numberList.addAll(list)
         this.mSelectNumber.blueList.clear()

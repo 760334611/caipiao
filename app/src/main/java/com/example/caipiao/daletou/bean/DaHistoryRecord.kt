@@ -1,4 +1,4 @@
-package com.example.caipiao.shuangseqiu.bean
+package com.example.caipiao.daletou.bean
 
 
 import androidx.room.Entity
@@ -7,8 +7,8 @@ import com.alibaba.fastjson.JSONObject
 import com.example.caipiao.common.bean.BaseHistoryRecord
 import com.example.caipiao.common.bean.SelectNumber
 
-@Entity(tableName = "historyTimeDate")
-class HistoryRecord : BaseHistoryRecord {
+@Entity(tableName = "daHistoryTimeDate")
+class DaHistoryRecord : BaseHistoryRecord {
 
     constructor(id: Long, time: Long, prizeDesignatedTime: Long, selectNumberJson: String) : super(id,time,prizeDesignatedTime,selectNumberJson) {
         this.id = id

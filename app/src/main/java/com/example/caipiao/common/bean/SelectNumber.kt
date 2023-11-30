@@ -1,4 +1,4 @@
-package com.example.caipiao.shuangseqiu.bean
+package com.example.caipiao.common.bean
 
 import java.io.Serializable
 

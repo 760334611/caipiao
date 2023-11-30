@@ -1,4 +1,4 @@
-package com.example.caipiao.shuangseqiu.adapter
+package com.example.caipiao.common.adapter
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
@@ -7,16 +7,18 @@ import android.view.ViewGroup
 import android.widget.Button
 import androidx.recyclerview.widget.RecyclerView
 import com.example.caipiao.R
+import com.example.caipiao.common.bean.BaseHistoryRecord
 import com.example.caipiao.shuangseqiu.bean.HistoryRecord
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 class HistoryTimeAdapter : RecyclerView.Adapter<HistoryTimeAdapter.HistoryTimeHolder>() {
 
-    private val timeList = ArrayList<HistoryRecord>()
+    private val timeList = ArrayList<BaseHistoryRecord>()
     private var weekDays = arrayOf("星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六")
     private val format = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
-    var itemClick: ((HistoryRecord) -> Unit)? = null
+    var itemClick: ((BaseHistoryRecord) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HistoryTimeHolder {
         val view =
@@ -47,7 +49,7 @@ class HistoryTimeAdapter : RecyclerView.Adapter<HistoryTimeAdapter.HistoryTimeHo
         return weekDays[w] + " " + format.format(date)
     }
 
-    fun setData(list: List<HistoryRecord>) {
+    fun setData(list: ArrayList<BaseHistoryRecord>) {
         timeList.clear()
         timeList.addAll(list)
         timeList.sortByDescending { historyRecord -> historyRecord.time }

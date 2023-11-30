@@ -1,16 +1,24 @@
-package com.example.caipiao.shuangseqiu.bean
+package com.example.caipiao.common.bean
 
-
-import androidx.room.Entity
+import androidx.room.Ignore
+import androidx.room.PrimaryKey
 import com.alibaba.fastjson.JSONArray
 import com.alibaba.fastjson.JSONObject
-import com.example.caipiao.common.bean.BaseHistoryRecord
-import com.example.caipiao.common.bean.SelectNumber
+import java.io.Serializable
 
-@Entity(tableName = "historyTimeDate")
-class HistoryRecord : BaseHistoryRecord {
 
-    constructor(id: Long, time: Long, prizeDesignatedTime: Long, selectNumberJson: String) : super(id,time,prizeDesignatedTime,selectNumberJson) {
+open class BaseHistoryRecord : Serializable {
+    @PrimaryKey(autoGenerate = true)
+    var id: Long = 0
+    var time: Long = 0
+    var prizeDesignatedTime: Long = 0
+    var selectNumberJson: String = ""
+
+
+    @Ignore
+    var selectNumberList = ArrayList<SelectNumber>()
+
+    constructor(id: Long, time: Long, prizeDesignatedTime: Long, selectNumberJson: String) {
         this.id = id
         this.time = time
         this.prizeDesignatedTime = prizeDesignatedTime
@@ -21,7 +29,7 @@ class HistoryRecord : BaseHistoryRecord {
         ) as ArrayList<SelectNumber>
     }
 
-    constructor(time: Long, prizeDesignatedTime: Long, selectNumberList: ArrayList<SelectNumber>) : super(time,prizeDesignatedTime,selectNumberList) {
+    constructor(time: Long, prizeDesignatedTime: Long, selectNumberList: ArrayList<SelectNumber>) {
         this.time = time
         this.prizeDesignatedTime = prizeDesignatedTime
         this.selectNumberList.clear()

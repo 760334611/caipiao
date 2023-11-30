@@ -1,4 +1,4 @@
-package com.example.caipiao.shuangseqiu.adapter
+package com.example.caipiao.common.adapter
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -9,15 +9,16 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.caipiao.R
-import com.example.caipiao.shuangseqiu.bean.HistoryPrizeNumber
+import com.example.caipiao.common.bean.BaseHistoryPrizeNumber
 import java.text.SimpleDateFormat
 import java.util.*
 
 class HistoryPrizeAdapter : RecyclerView.Adapter<HistoryPrizeAdapter.HistoryTimeHolder>() {
 
-    private val timeList = ArrayList<HistoryPrizeNumber>()
+    private val timeList = ArrayList<BaseHistoryPrizeNumber>()
+    @SuppressLint("SimpleDateFormat")
     private val format = SimpleDateFormat("yyyy-MM-dd")
-    var itemClick: ((HistoryPrizeNumber) -> Unit)? = null
+    var itemClick: ((BaseHistoryPrizeNumber) -> Unit)? = null
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HistoryTimeHolder {
@@ -40,7 +41,6 @@ class HistoryPrizeAdapter : RecyclerView.Adapter<HistoryPrizeAdapter.HistoryTime
             getNumberView(holder.itemView.context, holder, R.mipmap.red_circle, it)
 
         }
-
 
         holder.itemView.setOnClickListener {
             itemClick?.invoke(timeList[position])
@@ -73,7 +73,7 @@ class HistoryPrizeAdapter : RecyclerView.Adapter<HistoryPrizeAdapter.HistoryTime
         return timeList.size
     }
 
-    fun setData(list: List<HistoryPrizeNumber>) {
+    fun setData(list: List<BaseHistoryPrizeNumber>) {
         timeList.clear()
         timeList.addAll(list)
         notifyDataSetChanged()

@@ -9,7 +9,7 @@
 
         <variable
             name="onClickHandler"
-            type="com.example.caipiao.shuangseqiu.activity.HistoryNumberFragment" />
+            type="com.example.caipiao.common.fragment.HistoryNumberFragment" />
 
     </data>
 

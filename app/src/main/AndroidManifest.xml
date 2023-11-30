@@ -27,6 +27,9 @@
         <activity
             android:name="com.example.caipiao.shuangseqiu.activity.MainShuangSeQiuActivity"
             android:exported="true" />
+        <activity
+            android:name="com.example.caipiao.daletou.activity.MainDaLeTouActivity"
+            android:exported="true" />
     </application>
 
 </manifest>

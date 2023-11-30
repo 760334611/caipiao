@@ -1,6 +1,6 @@
 package com.example.caipiao.common
 
-import com.example.caipiao.shuangseqiu.bean.SelectNumber
+import com.example.caipiao.common.bean.SelectNumber
 
 abstract class FileFragmentListener {
     /**

@@ -7,10 +7,6 @@
 
         <import type="android.view.View" />
 
-        <variable
-            name="onClickHandler"
-            type="com.example.caipiao.shuangseqiu.activity.LotteryResultsFragment" />
-
     </data>
 
 
