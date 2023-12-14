@@ -10,7 +10,7 @@ import com.example.caipiao.common.FileFragmentListener
 import com.example.caipiao.common.viewmodel.BaseCommonViewModel
 
 
-open class BaseFragment(model: BaseCommonViewModel, lottery:String) : Fragment() {
+open class BaseFragment(model: BaseCommonViewModel, lottery: String) : Fragment() {
 
     var mFileFragmentListener: FileFragmentListener? = null
 
@@ -38,9 +38,14 @@ open class BaseFragment(model: BaseCommonViewModel, lottery:String) : Fragment()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initData()
+        initView()
     }
 
     open fun initData() {
+
+    }
+
+    open fun initView() {
 
     }
 }

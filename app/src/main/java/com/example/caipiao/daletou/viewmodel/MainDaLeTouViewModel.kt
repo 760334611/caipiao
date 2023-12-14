@@ -47,6 +47,10 @@ class MainDaLeTouViewModel : BaseCommonViewModel() {
                 mHistoryPrizeNumberList.clear()
                 mHistoryPrizeNumberList.addAll(timeList)
                 mHistoryPrizeNumberList.sortByDescending { historyPrizeNumber -> historyPrizeNumber.prizeDesignatedTime }
+                dealHistoryPrizeNumber(
+                    DefCommonUtils.DA_LE_TOU_BLUE_NUMBER,
+                    DefCommonUtils.DA_LE_TOU_RED_NUMBER
+                )
                 mHistoryPrizeList.emit(mHistoryPrizeNumberList)
             }
         }
@@ -72,7 +76,7 @@ class MainDaLeTouViewModel : BaseCommonViewModel() {
                 else -> {
                     DaHistoryRecord(
                         System.currentTimeMillis(),
-                        mHistoryPrizeNumberList[0].prizeDesignatedTime+1,
+                        mHistoryPrizeNumberList[0].prizeDesignatedTime + 1,
                         selectNumberList
                     )
                 }
@@ -172,9 +176,13 @@ class MainDaLeTouViewModel : BaseCommonViewModel() {
         DaHistoryDataBase.getInstance(MyApplication.mContext).mHistoryDao.insertHistoryPrizeData(
             prizeNumberList
         )
+        mHistoryPrizeNumberList.addAll(prizeNumberList)
+        mHistoryPrizeNumberList.sortByDescending { historyPrizeNumber -> historyPrizeNumber.prizeDesignatedTime }
+        dealHistoryPrizeNumber(
+            DefCommonUtils.DA_LE_TOU_BLUE_NUMBER,
+            DefCommonUtils.DA_LE_TOU_RED_NUMBER
+        )
         viewModelScope.launch {
-            mHistoryPrizeNumberList.addAll(prizeNumberList)
-            mHistoryPrizeNumberList.sortByDescending { historyPrizeNumber -> historyPrizeNumber.prizeDesignatedTime }
             mHistoryPrizeList.emit(mHistoryPrizeNumberList)
         }
     }

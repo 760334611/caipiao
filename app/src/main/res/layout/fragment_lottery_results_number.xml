@@ -12,68 +12,86 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
+        android:layout_height="match_parent">
+
+        <Button
+            android:id="@+id/get_prize"
+            style="@style/base_button"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginTop="16dp"
+            android:text="兑奖"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            />
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cl_lottery_results"
-            android:layout_height="100dp"
             android:layout_width="match_parent"
-            android:background="@drawable/shape_lottery_item_bg"
+            android:layout_height="100dp"
             android:layout_marginHorizontal="10dp"
-            app:layout_constraintTop_toTopOf="parent"
             android:layout_marginTop="16dp"
-            >
+            android:visibility="gone"
+            android:background="@drawable/shape_lottery_item_bg"
+            app:layout_constraintTop_toBottomOf="@+id/get_prize">
+
+            <ImageView
+                android:id="@+id/close_lottery_results"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:src="@mipmap/icon_close"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                />
+
             <TextView
                 android:id="@+id/tv_designated"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/tv_time"
-                app:layout_constraintBottom_toTopOf="@+id/ll_container"
-                android:textSize="20dp"
-                android:textColor="@color/text_color0"
                 android:text="1111111期"
-                />
+                android:textColor="@color/text_color0"
+                android:textSize="20dp"
+                app:layout_constraintBottom_toTopOf="@+id/ll_container"
+                app:layout_constraintEnd_toStartOf="@+id/tv_time"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/tv_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="@+id/tv_designated"
+                android:text="2023-11-27"
+                android:textColor="@color/text_color0"
+                android:textSize="20dp"
                 app:layout_constraintBottom_toBottomOf="@+id/tv_designated"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/tv_designated"
-                android:textSize="20dp"
-                android:textColor="@color/text_color0"
-                android:text="2023-11-27"
-                />
+                app:layout_constraintTop_toTopOf="@+id/tv_designated" />
+
             <LinearLayout
                 android:id="@+id/ll_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
                 android:gravity="center"
-                app:layout_constraintTop_toBottomOf="@+id/tv_designated"
+                android:orientation="horizontal"
                 app:layout_constraintBottom_toBottomOf="parent"
-                />
+                app:layout_constraintTop_toBottomOf="@+id/tv_designated" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/select_number_recycler"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="18dp"
-            app:layout_constraintTop_toBottomOf="@+id/cl_lottery_results"
             android:orientation="vertical"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/item_lottery_results_number"
+            app:layout_constraintTop_toBottomOf="@+id/cl_lottery_results"
             tools:itemCount="100"
-            />
+            tools:listitem="@layout/item_lottery_results_number" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

@@ -11,13 +11,14 @@ import com.example.caipiao.common.viewmodel.SelectNumberViewModel
 import kotlinx.coroutines.launch
 
 
-class SelectNumberFragment(model: BaseCommonViewModel, lottery:String) : BaseFragment(model,lottery){
+class SelectNumberFragment(model: BaseCommonViewModel, lottery: String) :
+    BaseFragment(model, lottery) {
 
     private val mBinding: FragmentSelectNumberBinding by lazy {
         FragmentSelectNumberBinding.inflate(layoutInflater)
     }
 
-    private val mSelectNumberAdapter: SelectNumberAdapter by lazy{
+    private val mSelectNumberAdapter: SelectNumberAdapter by lazy {
         SelectNumberAdapter()
     }
 
@@ -32,37 +33,43 @@ class SelectNumberFragment(model: BaseCommonViewModel, lottery:String) : BaseFra
     override fun initData() {
         super.initData()
         mBinding.onClickHandler = this
-        mBinding.selectNumberRecycler.adapter=mSelectNumberAdapter
+        mBinding.selectNumberRecycler.adapter = mSelectNumberAdapter
         lifecycleScope.launchWhenCreated {
             launch {
-                mSelectNumberViewModel.mSelectNumberList.collect{
-                    mSelectNumberAdapter.setData(it,lotteryType)
+                mSelectNumberViewModel.mSelectNumberList.collect {
+                    mSelectNumberAdapter.setData(it, lotteryType)
                 }
             }
         }
         mSelectNumberAdapter.run {
-            uploadList={
+            uploadList = {
                 mSelectNumberViewModel.uploadNumberList(it)
             }
         }
         mSelectNumberViewModel.setLotteryType(lotteryType)
+        mSelectNumberViewModel.setLotteryWeightData(
+            mBaseCommonViewModel.selectBlueTotalMap,
+            mBaseCommonViewModel.selectRedTotalMap,
+            mBaseCommonViewModel.blueTotalWeight,
+            mBaseCommonViewModel.redTotalWeight
+        )
     }
 
-    fun autoSelectNumber(){
+    fun autoSelectNumber() {
         mSelectNumberViewModel.autoSelectNumber(5)
     }
 
-    fun handSelectNumber(){
+    fun handSelectNumber() {
         mSelectNumberViewModel.autoSelectNumber(1)
     }
 
-    fun sureSelectNumber(){
+    fun sureSelectNumber() {
         mBaseCommonViewModel.insertHistoryData(mSelectNumberViewModel.getSelectNumberList())
         mFileFragmentListener?.onSwitchFragmentForward(BaseLotteryActivity.HISTORY_NUMBER_FRAGMENT)
         cleanRecord()
     }
 
-    private fun cleanRecord(){
+    private fun cleanRecord() {
         mSelectNumberViewModel.uploadNumberList(ArrayList())
     }
 }

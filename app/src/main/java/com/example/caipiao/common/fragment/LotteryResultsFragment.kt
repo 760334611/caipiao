@@ -10,20 +10,24 @@ import com.example.caipiao.common.bean.BaseHistoryPrizeNumber
 import com.example.caipiao.databinding.LotteryResultsFragmentBinding
 import com.example.caipiao.common.adapter.LotteryResultsAdapter
 import com.example.caipiao.common.bean.SelectNumber
+import com.example.caipiao.common.dialog.LotteryResultsDialog
 import com.example.caipiao.common.viewmodel.BaseCommonViewModel
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 
-class LotteryResultsFragment(model: BaseCommonViewModel, lottery:String) : BaseFragment(model,lottery) {
+class LotteryResultsFragment(model: BaseCommonViewModel, lottery: String) :
+    BaseFragment(model, lottery) {
 
     @SuppressLint("SimpleDateFormat")
     private val format = SimpleDateFormat("yyyy-MM-dd")
     private val mBinding: LotteryResultsFragmentBinding by lazy {
         LotteryResultsFragmentBinding.inflate(layoutInflater)
     }
-    private var isLottery:Boolean=false
-
+    private var isLottery: Boolean = false
+    private var selectNumberList = ArrayList<SelectNumber>()
+    private var mHistoryPrizeNumber: BaseHistoryPrizeNumber? = null
     private val mLotteryResultsAdapter: LotteryResultsAdapter by lazy {
         LotteryResultsAdapter()
     }
@@ -37,38 +41,85 @@ class LotteryResultsFragment(model: BaseCommonViewModel, lottery:String) : BaseF
         mBinding.selectNumberRecycler.adapter = mLotteryResultsAdapter
     }
 
-    @SuppressLint("SetTextI18n")
-    fun setSelectNumberList(list: List<SelectNumber>, prizeDesignatedTime: Long) {
-        var mHistoryPrizeNumber: BaseHistoryPrizeNumber? = null
-
-        run breaking@{
-            mBaseCommonViewModel.getHistoryPrizeNumberList().forEach {
-                if (prizeDesignatedTime == it.prizeDesignatedTime) {
-                    mHistoryPrizeNumber = it
-                    return@breaking
+    override fun initView() {
+        super.initView()
+        mBinding.clLotteryResults.setOnLongClickListener {
+            val mSelectDialog = LotteryResultsDialog(context, R.style.base_BaseDialog)
+            mSelectDialog.setLotteryResultsData(mBaseCommonViewModel.mHistoryPrizeNumberList)
+            mSelectDialog.run {
+                itemLotteryClick = {
+                    mHistoryPrizeNumber=it
+                    showLotteryResults(mHistoryPrizeNumber)
                 }
             }
+            mSelectDialog.show()
+            false
         }
+        mBinding.closeLotteryResults.setOnClickListener {
+            mBinding.getPrize.visibility=View.VISIBLE
+            mBinding.clLotteryResults.visibility=View.GONE
+            isLottery=false
+            mLotteryResultsAdapter.setData(
+                selectNumberList,
+                SelectNumber(),
+                lotteryType,
+                isLottery
+            )
+        }
+        mBinding.getPrize.setOnClickListener {
+            mBinding.getPrize.visibility=View.GONE
+            mBinding.clLotteryResults.visibility=View.VISIBLE
+            showLotteryResults(mHistoryPrizeNumber)
+        }
+    }
 
+    @SuppressLint("SetTextI18n")
+    fun setSelectNumberList(list: List<SelectNumber>) {
+        mBinding.getPrize.visibility=View.VISIBLE
+        mBinding.clLotteryResults.visibility=View.GONE
+        isLottery=false
+
+        if (mBaseCommonViewModel.getHistoryPrizeNumberList().size > 0) {
+            mHistoryPrizeNumber = mBaseCommonViewModel.getHistoryPrizeNumberList()[0]
+        }
+        selectNumberList.clear()
+        selectNumberList.addAll(list)
+        mLotteryResultsAdapter.setData(
+            selectNumberList,
+            SelectNumber(),
+            lotteryType,
+            isLottery
+        )
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun showLotteryResults(
+        mHistoryPrizeNumber: BaseHistoryPrizeNumber?
+    ) {
         if (mHistoryPrizeNumber != null) {
-            val date = Date(mHistoryPrizeNumber!!.prizeDateTime)
+            val date = Date(mHistoryPrizeNumber.prizeDateTime)
             mBinding.tvTime.text = format.format(date)
-            mBinding.tvDesignated.text = "第${mHistoryPrizeNumber!!.prizeDesignatedTime}期"
+            mBinding.tvDesignated.text = "第${mHistoryPrizeNumber.prizeDesignatedTime}期"
             mBinding.llContainer.removeAllViews()
-            mHistoryPrizeNumber!!.mSelectNumber.blueList.forEach {
+            mHistoryPrizeNumber.mSelectNumber.blueList.forEach {
                 getNumberView(R.mipmap.blue_circle, it)
             }
-            mHistoryPrizeNumber!!.mSelectNumber.redList.forEach {
+            mHistoryPrizeNumber.mSelectNumber.redList.forEach {
                 getNumberView(R.mipmap.red_circle, it)
             }
-            isLottery=true
+            isLottery = true
         } else {
             mBinding.llContainer.removeAllViews()
-            mBinding.tvDesignated.text = "第${prizeDesignatedTime}期"
+            mBinding.tvDesignated.text = "第0000000期"
             mBinding.tvTime.text = "未开奖"
-            isLottery=false
+            isLottery = false
         }
-        mLotteryResultsAdapter.setData(list, mHistoryPrizeNumber?.mSelectNumber,lotteryType,isLottery)
+        mLotteryResultsAdapter.setData(
+            selectNumberList,
+            mHistoryPrizeNumber?.mSelectNumber,
+            lotteryType,
+            isLottery
+        )
     }
 
     @SuppressLint("InflateParams", "SetTextI18n")

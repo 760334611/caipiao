@@ -48,6 +48,7 @@ class MainShuangSeQiuViewModel : BaseCommonViewModel() {
                 mHistoryPrizeNumberList.clear()
                 mHistoryPrizeNumberList.addAll(timeList)
                 mHistoryPrizeNumberList.sortByDescending { historyPrizeNumber -> historyPrizeNumber.prizeDesignatedTime }
+                dealHistoryPrizeNumber(DefCommonUtils.SHUANG_SE_QIU_BLUE_NUMBER,DefCommonUtils.SHUANG_SE_QIU_RED_NUMBER)
                 mHistoryPrizeList.emit(mHistoryPrizeNumberList)
             }
         }
@@ -172,9 +173,12 @@ class MainShuangSeQiuViewModel : BaseCommonViewModel() {
         HistoryDataBase.getInstance(MyApplication.mContext).mHistoryDao.insertHistoryPrizeData(
             prizeNumberList
         )
+        mHistoryPrizeNumberList.addAll(prizeNumberList)
+        mHistoryPrizeNumberList.sortByDescending { historyPrizeNumber -> historyPrizeNumber.prizeDesignatedTime }
+
+        dealHistoryPrizeNumber(DefCommonUtils.SHUANG_SE_QIU_BLUE_NUMBER,DefCommonUtils.SHUANG_SE_QIU_RED_NUMBER)
+
         viewModelScope.launch {
-            mHistoryPrizeNumberList.addAll(prizeNumberList)
-            mHistoryPrizeNumberList.sortByDescending { historyPrizeNumber -> historyPrizeNumber.prizeDesignatedTime }
             mHistoryPrizeList.emit(mHistoryPrizeNumberList)
         }
     }

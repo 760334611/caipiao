@@ -61,7 +61,7 @@ open class BaseLotteryActivity(model: BaseCommonViewModel, lotteryType: String) 
 
         override fun onSwitchFragmentLottery(list: List<SelectNumber>, prizeDesignatedTime: Long) {
             showFragment(LOTTERY_RESULTS_FRAGMENT)
-            mLotteryResultsFragment.setSelectNumberList(list, prizeDesignatedTime)
+            mLotteryResultsFragment.setSelectNumberList(list)
         }
 
         override fun onSwitchFragmentRetreat() {

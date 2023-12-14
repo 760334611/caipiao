@@ -1,9 +1,11 @@
 package com.example.caipiao.common.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.caipiao.common.DefCommonUtils
 import com.example.caipiao.common.bean.SelectNumber
+import com.example.caipiao.common.bean.WeightSortBean
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.launch
 import java.util.*
@@ -19,6 +21,8 @@ class SelectNumberViewModel : ViewModel() {
     private var blueSelectableNumber = 6
     private var redTotalNumber = 16
     private var redSelectableNumber = 1
+    private var selectBlueTotalMap = HashMap<Int, WeightSortBean>()
+    private var selectRedTotalMap = HashMap<Int, WeightSortBean>()
 
 
     fun autoSelectNumber(number: Int) {
@@ -38,22 +42,32 @@ class SelectNumberViewModel : ViewModel() {
         }
     }
 
-    fun setLotteryType(lotteryType:String) {
-        when(lotteryType){
-            DefCommonUtils.LOTTERY_TYPE_SHUANG->{
-                this.blueTotalNumber = 33
+    fun setLotteryType(lotteryType: String) {
+        when (lotteryType) {
+            DefCommonUtils.LOTTERY_TYPE_SHUANG -> {
                 this.blueSelectableNumber = 6
-                this.redTotalNumber = 16
                 this.redSelectableNumber = 1
             }
-            DefCommonUtils.LOTTERY_TYPE_DA->{
-                this.blueTotalNumber = 35
+            DefCommonUtils.LOTTERY_TYPE_DA -> {
                 this.blueSelectableNumber = 5
-                this.redTotalNumber = 12
                 this.redSelectableNumber = 2
             }
         }
 
+    }
+
+    fun setLotteryWeightData(
+        selectBlueTotalMap: HashMap<Int, WeightSortBean>,
+        selectRedTotalMap: HashMap<Int, WeightSortBean>,
+        blueTotalNumber: Int,
+        redTotalNumber: Int
+    ) {
+        this.selectBlueTotalMap = selectBlueTotalMap
+        this.selectRedTotalMap = selectRedTotalMap
+        this.blueTotalNumber = blueTotalNumber
+        this.redTotalNumber = redTotalNumber
+        Log.i("zhanghao", "blueTotalNumber=$blueTotalNumber")
+        Log.i("zhanghao", "redTotalNumber=$redTotalNumber")
     }
 
     fun getSelectNumberList() = numberList
@@ -65,30 +79,53 @@ class SelectNumberViewModel : ViewModel() {
     private fun randomBall(): SelectNumber {
 
         val randomBlue = Random()
-        val boolBlue = BooleanArray(blueTotalNumber + 1)
+        val boolBlue = BooleanArray(blueTotalNumber + 2)
         val blueNumber = ArrayList<Int>()
         val redNumber = ArrayList<Int>()
         var randInt: Int
         for (i in 0 until blueSelectableNumber) {
             do {
-                randInt = randomBlue.nextInt(blueTotalNumber) + 1
+                randInt = randomBlue.nextInt(blueTotalNumber)
             } while (boolBlue[randInt])
-            boolBlue[randInt] = true
-            blueNumber.add(randInt)
+            run breaking@{
+                selectBlueTotalMap.forEach { (key, value) ->
+                    if (value.startWeight < randInt && randInt <= value.endWeight) {
+                        for (k in value.startWeight - 1..value.endWeight + 1) {
+                            if (k >= 0) {
+                                boolBlue[k] = true
+                            }
+
+                        }
+                        blueNumber.add(key)
+                        return@breaking
+                    }
+                }
+            }
+
         }
         blueNumber.sort()
 
-        val boolRed = BooleanArray(redTotalNumber + 1)
+        val boolRed = BooleanArray(redTotalNumber + 2)
         var redInt: Int
         for (i in 0 until redSelectableNumber) {
             do {
-                redInt = randomBlue.nextInt(redTotalNumber) + 1
+                redInt = randomBlue.nextInt(redTotalNumber)
             } while (boolBlue[redInt])
-            boolRed[redInt] = true
-            redNumber.add(redInt)
+            run breaking@{
+                selectRedTotalMap.forEach { (key, value) ->
+                    if (value.startWeight < redInt && redInt <= value.endWeight) {
+                        for (k in value.startWeight - 1..value.endWeight + 1) {
+                            if (k >= 0) {
+                                boolRed[k] = true
+                            }
+                        }
+                        redNumber.add(key)
+                        return@breaking
+                    }
+                }
+            }
         }
         redNumber.sort()
-
         return SelectNumber(blueNumber, redNumber)
     }
 
