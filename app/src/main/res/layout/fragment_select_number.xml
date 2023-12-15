@@ -23,7 +23,7 @@
             android:id="@+id/auto_select_number"
             style="@style/base_button"
             android:onClick="@{(View)->onClickHandler.autoSelectNumber()}"
-            android:text="号码+5"
+            android:text="+5"
             app:layout_constraintEnd_toStartOf="@+id/hand_select_number"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -34,7 +34,7 @@
             android:id="@+id/hand_select_number"
             style="@style/base_button"
             android:onClick="@{(View)->onClickHandler.handSelectNumber()}"
-            android:text="号码+1"
+            android:text="+1"
             app:layout_constraintEnd_toStartOf="@+id/sure_select_number"
             app:layout_constraintStart_toEndOf="@+id/auto_select_number"
             app:layout_constraintTop_toTopOf="@+id/auto_select_number" />
@@ -43,9 +43,19 @@
             android:id="@+id/sure_select_number"
             style="@style/base_button"
             android:onClick="@{(View)->onClickHandler.sureSelectNumber()}"
-            android:text="确定选择"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:text="确定"
+            app:layout_constraintEnd_toStartOf="@+id/clean_select_number"
             app:layout_constraintStart_toEndOf="@+id/hand_select_number"
+            app:layout_constraintTop_toTopOf="@+id/auto_select_number" />
+
+
+        <Button
+            android:id="@+id/clean_select_number"
+            style="@style/base_button"
+            android:onClick="@{(View)->onClickHandler.cleanSelectNumber()}"
+            android:text="全部清除"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/sure_select_number"
             app:layout_constraintTop_toTopOf="@+id/auto_select_number" />
 
 

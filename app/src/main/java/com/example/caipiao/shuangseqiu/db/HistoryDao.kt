@@ -1,6 +1,7 @@
 package com.example.caipiao.shuangseqiu.db
 
 import androidx.room.*
+import com.example.caipiao.common.bean.BaseHistoryRecord
 import com.example.caipiao.shuangseqiu.bean.HistoryPrizeNumber
 import com.example.caipiao.shuangseqiu.bean.HistoryRecord
 
@@ -15,6 +16,9 @@ interface HistoryDao {
 
     @Update(entity = HistoryRecord::class)
     fun updateHistoryTimeData(vararg historyRecord: HistoryRecord)
+
+    @Delete(entity = HistoryRecord::class)
+    fun deleteHistoryTimeData(historyRecord: HistoryRecord)
 
     @Query("SELECT * FROM historyPrizeDate")
     fun queryAllHistoryPrize(): List<HistoryPrizeNumber>

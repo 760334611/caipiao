@@ -1,13 +1,18 @@
 package com.example.caipiao.common.viewmodel
 
 import android.annotation.SuppressLint
-import android.util.Log
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.caipiao.MyApplication
 import com.example.caipiao.common.bean.BaseHistoryPrizeNumber
 import com.example.caipiao.common.bean.BaseHistoryRecord
 import com.example.caipiao.common.bean.SelectNumber
 import com.example.caipiao.common.bean.WeightSortBean
+import com.example.caipiao.shuangseqiu.db.HistoryDataBase
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
@@ -62,6 +67,14 @@ open class BaseCommonViewModel : ViewModel() {
     open fun getHistoryPrizeData() {
 
     }
+
+    /**
+     * 删除自选历史号码
+     */
+    open fun deleteHistorySelectList(mBaseHistoryRecordList: ArrayList<BaseHistoryRecord>) {
+
+    }
+
 
     /**
      * 计算历史中奖值的概率

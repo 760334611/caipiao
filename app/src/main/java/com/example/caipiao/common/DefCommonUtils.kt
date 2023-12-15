@@ -16,11 +16,11 @@ class DefCommonUtils {
         var LOTTERY_TYPE_SHUANG: String = "lottery.type.shuang.se.qiu"
         var LOTTERY_TYPE_DA: String = "lottery.type.da.le.tou"
 
-        var SHUANG_SE_QIU_URL: String = "http://data.17500.cn/ssq_desc.txt"
+        var SHUANG_SE_QIU_URL: String = "https://data.17500.cn/ssq_desc.txt"
         var SHUANG_SE_QIU_FILE: String = getBaseDir() + "/download/"
         var SHUANG_SE_QIU_NAME: String = "/shuangseqiu.txt/"
 
-        var DA_LE_TOU_URL: String = "http://data.17500.cn/dlt2_desc.txt"
+        var DA_LE_TOU_URL: String = "https://data.17500.cn/dlt2_desc.txt"
         var DA_LE_TOU_FILE: String = getBaseDir() + "/download/"
         var DA_LE_TOU_NAME: String = "/daletou.txt/"
 

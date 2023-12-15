@@ -79,18 +79,17 @@ class SelectNumberViewModel : ViewModel() {
     private fun randomBall(): SelectNumber {
 
         val randomBlue = Random()
-        val boolBlue = BooleanArray(blueTotalNumber + 2)
+        val boolBlue = BooleanArray(blueTotalNumber+1)
         val blueNumber = ArrayList<Int>()
-        val redNumber = ArrayList<Int>()
-        var randInt: Int
+        var blueInt: Int
         for (i in 0 until blueSelectableNumber) {
             do {
-                randInt = randomBlue.nextInt(blueTotalNumber)
-            } while (boolBlue[randInt])
+                blueInt = randomBlue.nextInt(blueTotalNumber)
+            } while (boolBlue[blueInt])
             run breaking@{
                 selectBlueTotalMap.forEach { (key, value) ->
-                    if (value.startWeight < randInt && randInt <= value.endWeight) {
-                        for (k in value.startWeight - 1..value.endWeight + 1) {
+                    if (value.startWeight < blueInt && blueInt <= value.endWeight) {
+                        for (k in value.startWeight..value.endWeight) {
                             if (k >= 0) {
                                 boolBlue[k] = true
                             }
@@ -105,16 +104,17 @@ class SelectNumberViewModel : ViewModel() {
         }
         blueNumber.sort()
 
-        val boolRed = BooleanArray(redTotalNumber + 2)
+        val redNumber = ArrayList<Int>()
+        val boolRed = BooleanArray(redTotalNumber+1)
         var redInt: Int
         for (i in 0 until redSelectableNumber) {
             do {
                 redInt = randomBlue.nextInt(redTotalNumber)
-            } while (boolBlue[redInt])
+            } while (boolRed[redInt])
             run breaking@{
                 selectRedTotalMap.forEach { (key, value) ->
                     if (value.startWeight < redInt && redInt <= value.endWeight) {
-                        for (k in value.startWeight - 1..value.endWeight + 1) {
+                        for (k in value.startWeight..value.endWeight) {
                             if (k >= 0) {
                                 boolRed[k] = true
                             }

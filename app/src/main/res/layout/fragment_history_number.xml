@@ -18,16 +18,28 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         >
+        <Button
+            android:id="@+id/delete"
+            style="@style/base_button"
+            android:layout_marginTop="12dp"
+            android:visibility="gone"
+            android:text="确定删除选中"
+            android:onClick="@{(View)->onClickHandler.delete()}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycle_time"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
             android:layout_marginTop="18dp"
             android:orientation="vertical"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/item_select_shuang_number"
+            tools:listitem="@layout/item_history_time"
             tools:itemCount="100"
+            app:layout_constraintTop_toBottomOf="@+id/delete"
+            app:layout_goneMarginTop="12dp"
             />
 
 

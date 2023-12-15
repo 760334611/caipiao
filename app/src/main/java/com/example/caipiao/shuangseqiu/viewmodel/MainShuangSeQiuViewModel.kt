@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.example.caipiao.MyApplication
 import com.example.caipiao.common.DefCommonUtils
+import com.example.caipiao.common.bean.BaseHistoryRecord
 import com.example.caipiao.shuangseqiu.bean.HistoryPrizeNumber
 import com.example.caipiao.shuangseqiu.bean.HistoryRecord
 import com.example.caipiao.common.bean.SelectNumber
@@ -180,6 +181,24 @@ class MainShuangSeQiuViewModel : BaseCommonViewModel() {
 
         viewModelScope.launch {
             mHistoryPrizeList.emit(mHistoryPrizeNumberList)
+        }
+    }
+
+    override fun deleteHistorySelectList(mBaseHistoryRecordList: ArrayList<BaseHistoryRecord>) {
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                withContext(Dispatchers.IO) {
+                    mBaseHistoryRecordList.forEach {
+                        HistoryDataBase.getInstance(MyApplication.mContext).mHistoryDao.deleteHistoryTimeData(
+                            it as HistoryRecord
+                        )
+                        mHistorySelectList.remove(it)
+                    }
+
+                }
+
+                mHistoryTimeList.emit(mHistorySelectList)
+            }
         }
     }
 

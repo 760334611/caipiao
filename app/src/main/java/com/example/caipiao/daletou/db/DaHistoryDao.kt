@@ -1,10 +1,9 @@
 package com.example.caipiao.daletou.db
 
 import androidx.room.*
+import com.example.caipiao.common.bean.BaseHistoryRecord
 import com.example.caipiao.daletou.bean.DaHistoryPrizeNumber
 import com.example.caipiao.daletou.bean.DaHistoryRecord
-import com.example.caipiao.shuangseqiu.bean.HistoryPrizeNumber
-import com.example.caipiao.shuangseqiu.bean.HistoryRecord
 
 @Dao
 interface DaHistoryDao {
@@ -16,7 +15,10 @@ interface DaHistoryDao {
     fun queryAllHistoryTime(): List<DaHistoryRecord>
 
     @Update(entity = DaHistoryRecord::class)
-    fun updateHistoryTimeData(vararg historyRecord: DaHistoryRecord)
+    fun updateHistoryTimeData(historyRecord: DaHistoryRecord)
+
+    @Delete(entity = DaHistoryRecord::class)
+    fun deleteHistoryTimeData(historyRecord: DaHistoryRecord)
 
     @Query("SELECT * FROM daHistoryPrizeDate")
     fun queryAllHistoryPrize(): List<DaHistoryPrizeNumber>

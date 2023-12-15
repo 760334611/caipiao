@@ -69,6 +69,10 @@ class SelectNumberFragment(model: BaseCommonViewModel, lottery: String) :
         cleanRecord()
     }
 
+    fun cleanSelectNumber() {
+        cleanRecord()
+    }
+
     private fun cleanRecord() {
         mSelectNumberViewModel.uploadNumberList(ArrayList())
     }

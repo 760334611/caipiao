@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.example.caipiao.MyApplication
 import com.example.caipiao.common.DefCommonUtils
+import com.example.caipiao.common.bean.BaseHistoryRecord
 import com.example.caipiao.common.bean.SelectNumber
 import com.example.caipiao.common.viewmodel.BaseCommonViewModel
 import com.example.caipiao.daletou.bean.DaHistoryPrizeNumber
@@ -184,6 +185,24 @@ class MainDaLeTouViewModel : BaseCommonViewModel() {
         )
         viewModelScope.launch {
             mHistoryPrizeList.emit(mHistoryPrizeNumberList)
+        }
+    }
+
+    override fun deleteHistorySelectList(mBaseHistoryRecordList: ArrayList<BaseHistoryRecord>) {
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                withContext(Dispatchers.IO) {
+                    mBaseHistoryRecordList.forEach {
+                        DaHistoryDataBase.getInstance(MyApplication.mContext).mHistoryDao.deleteHistoryTimeData(
+                            it as DaHistoryRecord
+                        )
+                        mHistorySelectList.remove(it)
+                    }
+
+                }
+
+                mHistoryTimeList.emit(mHistorySelectList)
+            }
         }
     }
 
