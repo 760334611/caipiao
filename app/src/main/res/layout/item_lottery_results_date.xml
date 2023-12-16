@@ -2,37 +2,39 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/btn_history_time"
-    android:layout_height="50dp"
     android:layout_width="match_parent"
-    android:background="@drawable/base_item_button_bg"
+    android:layout_height="50dp"
     android:layout_marginHorizontal="10dp"
-    android:layout_marginBottom="20dp">
+    android:layout_marginBottom="20dp"
+    android:background="@drawable/base_item_button_bg">
 
     <TextView
         android:id="@+id/tv_lottery_designated"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/tv_lottery_time"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:textSize="20dp"
-        android:textColor="@color/text_color0"
+        android:ellipsize="middle"
+        android:maxLines="1"
         android:text="1111111期"
-        />
+        android:textColor="@color/text_color0"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/tv_lottery_time"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tv_lottery_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="@+id/tv_lottery_designated"
+        android:ellipsize="middle"
+        android:maxLines="1"
+        android:text="2023-11-27"
+        android:textColor="@color/text_color0"
+        android:textSize="20dp"
         app:layout_constraintBottom_toBottomOf="@+id/tv_lottery_designated"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/tv_lottery_designated"
-        android:textSize="20dp"
-        android:textColor="@color/text_color0"
-        android:text="2023-11-27"
-        />
+        app:layout_constraintTop_toTopOf="@+id/tv_lottery_designated" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -8,6 +8,8 @@
         android:id="@+id/tv_select_number"
         style="@style/base_text"
         android:layout_gravity="center"
+        android:ellipsize="middle"
         android:gravity="center"
+        android:maxLines="1"
         android:text="01" />
 </FrameLayout>
