@@ -27,7 +27,7 @@
         android:layout_marginHorizontal="3dp"
         android:textColor="@color/text_color0"
         android:maxLines="1"
-        android:ellipsize="middle"
+        android:ellipsize="end"
         android:text="周五 2023-11-21 18.30.538.30.53"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"

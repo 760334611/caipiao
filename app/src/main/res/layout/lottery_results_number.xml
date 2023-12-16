@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:ellipsize="middle"
+        android:ellipsize="end"
         android:maxLines="1"
         android:text="选择开奖期数"
         android:textColor="@color/text_color0"

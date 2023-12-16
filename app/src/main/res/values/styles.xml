@@ -32,7 +32,7 @@
         <item name="android:layout_marginEnd">8dp</item>
         <item name="android:gravity">center</item>
         <item name="android:maxLines">1</item>
-        <item name="android:ellipsize">middle</item>
+        <item name="android:ellipsize">end</item>
         <item name="android:includeFontPadding">false</item>
         <item name="android:textSize">25sp</item>
         <item name="android:textColor">@color/text_color0</item>
@@ -44,7 +44,7 @@
         <item name="android:layout_height">48dp</item>
         <item name="android:gravity">center</item>
         <item name="android:maxLines">1</item>
-        <item name="android:ellipsize">middle</item>
+        <item name="android:ellipsize">end</item>
         <item name="android:includeFontPadding">false</item>
         <item name="android:textSize">24sp</item>
         <item name="android:textColor">@color/white</item>
