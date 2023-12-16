@@ -10,7 +10,7 @@ import com.example.caipiao.common.bean.SelectNumber
 @Entity(tableName = "daHistoryPrizeDate")
 class DaHistoryPrizeNumber : BaseHistoryPrizeNumber {
 
-    constructor(id: Long, prizeDateTime: Long, prizeDesignatedTime: Long, selectNumberJson: String)
+    constructor(id: Long, prizeDateTime: String, prizeDesignatedTime: Long, selectNumberJson: String)
             : super(id,prizeDateTime,prizeDesignatedTime,selectNumberJson) {
         this.id = id
         this.prizeDateTime = prizeDateTime
@@ -22,7 +22,7 @@ class DaHistoryPrizeNumber : BaseHistoryPrizeNumber {
         ) as SelectNumber
     }
 
-    constructor(prizeDateTime: Long, prizeDesignatedTime: Long, selectNumber: SelectNumber)
+    constructor(prizeDateTime: String, prizeDesignatedTime: Long, selectNumber: SelectNumber)
             : super(prizeDateTime,prizeDesignatedTime,selectNumber){
         this.prizeDateTime = prizeDateTime
         this.prizeDesignatedTime = prizeDesignatedTime

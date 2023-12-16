@@ -17,7 +17,6 @@ class HistoryPrizeAdapter : RecyclerView.Adapter<HistoryPrizeAdapter.HistoryTime
 
     private val timeList = ArrayList<BaseHistoryPrizeNumber>()
     @SuppressLint("SimpleDateFormat")
-    private val format = SimpleDateFormat("yyyy-MM-dd")
     var itemClick: ((BaseHistoryPrizeNumber) -> Unit)? = null
 
 
@@ -29,8 +28,7 @@ class HistoryPrizeAdapter : RecyclerView.Adapter<HistoryPrizeAdapter.HistoryTime
 
     @SuppressLint("InflateParams", "SetTextI18n")
     override fun onBindViewHolder(holder: HistoryTimeHolder, position: Int) {
-        val date = Date(timeList[position].prizeDateTime)
-        holder.tvTime.text = format.format(date)
+        holder.tvTime.text =timeList[position].prizeDateTime
         holder.tvDesignated.text = "第${timeList[position].prizeDesignatedTime.toString()}期"
         holder.llContainer.removeAllViews()
         timeList[position].mSelectNumber.blueList.forEach {

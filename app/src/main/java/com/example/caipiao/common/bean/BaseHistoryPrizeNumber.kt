@@ -10,14 +10,19 @@ import java.io.Serializable
 open class BaseHistoryPrizeNumber : Serializable {
     @PrimaryKey(autoGenerate = true)
     var id: Long = 0
-    var prizeDateTime: Long = 0
+    var prizeDateTime: String = ""
     var prizeDesignatedTime: Long = 0
     var selectNumberJson: String = ""
 
     @Ignore
     var mSelectNumber = SelectNumber()
 
-    constructor(id: Long, prizeDateTime: Long, prizeDesignatedTime: Long, selectNumberJson: String) {
+    constructor(
+        id: Long,
+        prizeDateTime: String,
+        prizeDesignatedTime: Long,
+        selectNumberJson: String
+    ) {
         this.id = id
         this.prizeDateTime = prizeDateTime
         this.prizeDesignatedTime = prizeDesignatedTime
@@ -28,7 +33,7 @@ open class BaseHistoryPrizeNumber : Serializable {
         ) as SelectNumber
     }
 
-    constructor(prizeDateTime: Long, prizeDesignatedTime: Long, selectNumber: SelectNumber) {
+    constructor(prizeDateTime: String, prizeDesignatedTime: Long, selectNumber: SelectNumber) {
         this.prizeDateTime = prizeDateTime
         this.prizeDesignatedTime = prizeDesignatedTime
         this.mSelectNumber = selectNumber

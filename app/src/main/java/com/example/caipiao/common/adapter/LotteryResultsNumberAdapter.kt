@@ -8,14 +8,10 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.caipiao.R
 import com.example.caipiao.common.bean.BaseHistoryPrizeNumber
-import java.text.SimpleDateFormat
-import java.util.*
 import kotlin.collections.ArrayList
 
 class LotteryResultsNumberAdapter :
     RecyclerView.Adapter<LotteryResultsNumberAdapter.SelectNumberHolder>() {
-    @SuppressLint("SimpleDateFormat")
-    private val format = SimpleDateFormat("yyyy-MM-dd")
     var itemClick: ((BaseHistoryPrizeNumber) -> Unit)? = null
 
     private var historyPrizeNumberList = ArrayList<BaseHistoryPrizeNumber>()
@@ -30,8 +26,7 @@ class LotteryResultsNumberAdapter :
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: SelectNumberHolder, position: Int) {
         val mHistoryPrizeNumber = historyPrizeNumberList[position]
-        val date = Date(mHistoryPrizeNumber.prizeDateTime)
-        holder.tvLotteryTime.text=format.format(date)
+        holder.tvLotteryTime.text=mHistoryPrizeNumber.prizeDateTime
         holder.tvLotteryDesignated.text="第${mHistoryPrizeNumber.prizeDesignatedTime}期"
         holder.itemView.setOnClickListener {
             itemClick?.invoke(mHistoryPrizeNumber)

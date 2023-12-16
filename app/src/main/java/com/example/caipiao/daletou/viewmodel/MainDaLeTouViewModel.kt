@@ -22,7 +22,6 @@ import java.io.BufferedReader
 import java.io.File
 import java.io.FileInputStream
 import java.io.InputStreamReader
-import java.util.*
 import kotlin.collections.ArrayList
 
 class MainDaLeTouViewModel : BaseCommonViewModel() {
@@ -74,6 +73,7 @@ class MainDaLeTouViewModel : BaseCommonViewModel() {
                 0 -> {
                     DaHistoryRecord(System.currentTimeMillis(), 0, selectNumberList)
                 }
+
                 else -> {
                     DaHistoryRecord(
                         System.currentTimeMillis(),
@@ -154,8 +154,7 @@ class MainDaLeTouViewModel : BaseCommonViewModel() {
                     if (mHistoryPrizeNumberList.size > 0 && mHistoryPrizeNumberList[0].prizeDesignatedTime >= prizeDesignatedTime) {
                         break
                     }
-                    val date: Date = dateFormat.parse(list[1]) as Date
-                    val prizeDateTime = date.time
+                    val prizeDateTime = list[1]
                     val blueList = ArrayList<Int>()
                     for (index in 0 until 5) {
                         blueList.add(list[index + 2].toInt())

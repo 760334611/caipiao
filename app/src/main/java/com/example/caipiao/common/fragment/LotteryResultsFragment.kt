@@ -12,16 +12,12 @@ import com.example.caipiao.common.adapter.LotteryResultsAdapter
 import com.example.caipiao.common.bean.SelectNumber
 import com.example.caipiao.common.dialog.LotteryResultsDialog
 import com.example.caipiao.common.viewmodel.BaseCommonViewModel
-import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
 
 class LotteryResultsFragment(model: BaseCommonViewModel, lottery: String) :
     BaseFragment(model, lottery) {
-
-    @SuppressLint("SimpleDateFormat")
-    private val format = SimpleDateFormat("yyyy-MM-dd")
     private val mBinding: LotteryResultsFragmentBinding by lazy {
         LotteryResultsFragmentBinding.inflate(layoutInflater)
     }
@@ -97,8 +93,7 @@ class LotteryResultsFragment(model: BaseCommonViewModel, lottery: String) :
         mHistoryPrizeNumber: BaseHistoryPrizeNumber?
     ) {
         if (mHistoryPrizeNumber != null) {
-            val date = Date(mHistoryPrizeNumber.prizeDateTime)
-            mBinding.tvTime.text = format.format(date)
+            mBinding.tvTime.text = mHistoryPrizeNumber.prizeDateTime
             mBinding.tvDesignated.text = "第${mHistoryPrizeNumber.prizeDesignatedTime}期"
             mBinding.llContainer.removeAllViews()
             mHistoryPrizeNumber.mSelectNumber.blueList.forEach {
