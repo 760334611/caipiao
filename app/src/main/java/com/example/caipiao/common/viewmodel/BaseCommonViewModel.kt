@@ -1,6 +1,7 @@
 package com.example.caipiao.common.viewmodel
 
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.caipiao.MyApplication
@@ -23,6 +24,7 @@ open class BaseCommonViewModel : ViewModel() {
 
     var blueTotalWeight: Int = 0
     var redTotalWeight: Int = 0
+    var baseNumber: Int = 30
 
     var mHistoryTimeList: MutableSharedFlow<ArrayList<BaseHistoryRecord>> =
         MutableSharedFlow()
@@ -91,9 +93,9 @@ open class BaseCommonViewModel : ViewModel() {
             selectRedTotalMap[k] = WeightSortBean(0, 1)
         }
 
-        val dateNumber = when (mHistoryPrizeNumberList.size > 30) {
+        val dateNumber = when (mHistoryPrizeNumberList.size > baseNumber) {
             false -> mHistoryPrizeNumberList.size
-            true -> 30
+            true -> baseNumber
         }
 
         run breaking@{
@@ -120,13 +122,15 @@ open class BaseCommonViewModel : ViewModel() {
         }
 
         selectBlueTotalMap.forEach { (key, value) ->
+            Log.i("zhanghao", "selectBlueTotalMap value.endWeight=${value.endWeight}")
             selectBlueTotalMap[key]!!.startWeight = blueTotalWeight
-            blueTotalWeight += value.endWeight * 10000
+            blueTotalWeight += (baseNumber/value.endWeight) * 10000
             selectBlueTotalMap[key]!!.endWeight = blueTotalWeight
         }
         selectRedTotalMap.forEach { (key, value) ->
+            Log.i("zhanghao", "selectRedTotalMap value.endWeight=${value.endWeight}")
             selectRedTotalMap[key]!!.startWeight = redTotalWeight
-            redTotalWeight += value.endWeight * 10000
+            redTotalWeight += (baseNumber/value.endWeight) * 10000
             selectRedTotalMap[key]!!.endWeight = redTotalWeight
         }
     }
